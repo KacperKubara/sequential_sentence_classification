@@ -95,6 +95,7 @@ class SeqClassificationModel(Model):
 
         # embedded_sentences: batch_size, num_sentences, sentence_length, embedding_size
         embedded_sentences = self.text_field_embedder(sentences)
+        # Kacper: Basically a padding mask for bert
         mask = get_text_field_mask(sentences, num_wrapping_dims=1).float()
         batch_size, num_sentences, _, _ = embedded_sentences.size()
 
@@ -102,17 +103,23 @@ class SeqClassificationModel(Model):
             # The following code collects vectors of the SEP tokens from all the examples in the batch,
             # and arrange them in one list. It does the same for the labels and confidences.
             # TODO: replace 103 with '[SEP]'
+            # Kacper: This is an important step where get SEP tokens to later do sentence classification
             sentences_mask = sentences['bert'] == 103  # mask for all the SEP tokens in the batch
+            # Kacper: We take a location of SEP tokens from the sentences to get a mask
+            # Kacper: We use this mask to get the respective embeddings from the output layer of bert
             embedded_sentences = embedded_sentences[sentences_mask]  # given batch_size x num_sentences_per_example x sent_len x vector_len
                                                                         # returns num_sentences_per_batch x vector_len
-            assert embedded_sentences.dim() == 2
+            # Kacper: I dont get it why it became 2 instead of 4? What is the difference between size() and dim()???
+            assert embedded_sentences.dim() == 2  
             num_sentences = embedded_sentences.shape[0]
+            # Kacper: comment below is vague
             # for the rest of the code in this model to work, think of the data we have as one example
             # with so many sentences and a batch of size 1
             batch_size = 1
-            embedded_sentences = embedded_sentences.unsqueeze(dim=0)
+            embedded_sentences = embedded_sentences.unsqueeze(dim=0) # Kacper: We batch all sentences in one array
             embedded_sentences = self.dropout(embedded_sentences)
 
+            # Kacper: we provide the labels for training (for each sentence)
             if labels is not None:
                 if self.labels_are_scores:
                     labels_mask = labels != 0.0  # mask for all the labels in the batch (no padding)
@@ -129,6 +136,7 @@ class SeqClassificationModel(Model):
                     assert additional_features.dim() == 2
 
                 num_labels = labels.shape[0]
+                # Kacper: this might be useful to consider in my code as well
                 if num_labels != num_sentences:  # bert truncates long sentences, so some of the SEP tokens might be gone
                     assert num_labels > num_sentences  # but `num_labels` should be at least greater than `num_sentences`
                     logger.warning(f'Found {num_labels} labels but {num_sentences} sentences')
@@ -158,6 +166,7 @@ class SeqClassificationModel(Model):
                     additional_features = additional_features.unsqueeze(dim=0)
         else:
             # ['CLS'] token
+            # Kacper: this shouldnt be the case for our project
             embedded_sentences = embedded_sentences[:, :, 0, :]
             embedded_sentences = self.dropout(embedded_sentences)
             batch_size, num_sentences, _ = embedded_sentences.size()
@@ -167,6 +176,9 @@ class SeqClassificationModel(Model):
         if additional_features is not None:
             embedded_sentences = torch.cat((embedded_sentences, additional_features), dim=-1)
 
+        # Kacper: we unwrap the time dimension of a tensor into the 1st dimension (batch),
+        # Kacper: apply a linear layer and wrap the the time dimension back
+        # Kacper: I would suspect it is happening only for embeddings related to the [SEP] tokens
         label_logits = self.time_distributed_aggregate_feedforward(embedded_sentences)
         # label_logits: batch_size, num_sentences, num_labels
 
@@ -193,16 +205,22 @@ class SeqClassificationModel(Model):
             label_loss = 0.0
         if labels is not None:
             # Compute cross entropy loss
+            # Kacper: reshape logits to be of the following shape in view()
             flattened_logits = label_logits.view((batch_size * num_sentences), self.num_labels)
-            flattened_gold = labels.contiguous().view(-1)
+            # Make labels to be contiguous in memory, reshape it so it is in a one dimension
+            flattened_gold = labels.contiguous().view(-1) # Kacper: True labels
 
             if not self.with_crf:
-                label_loss = self.loss(flattened_logits.squeeze(), flattened_gold)
+                # Kacper: We are only interested in this part of the code since we don't use crf
+                # Kacper: Get a loss (MSE if sci_sum is True or Crossentropy)
+                label_loss = self.loss(flattened_logits.squeeze(), flattened_gold) 
                 if confidences is not None:
                     label_loss = label_loss * confidences.type_as(label_loss).view(-1)
-                label_loss = label_loss.mean()
+                label_loss = label_loss.mean() # Kacper: Get a mean loss
+                # Kacper: Get a probabilities from the logits
                 flattened_probs = torch.softmax(flattened_logits, dim=-1)
             else:
+                # Kacper: We are no interested in this if statement branch
                 clamped_labels = torch.clamp(labels, min=0)
                 log_likelihood = self.crf(label_logits, clamped_labels, mask_sentences)
                 label_loss = -log_likelihood
@@ -214,6 +232,7 @@ class SeqClassificationModel(Model):
                 flattened_probs = crf_label_probs.view((batch_size * num_sentences), self.num_labels)
 
             if not self.labels_are_scores:
+                # Kacper: this will be a case for us as well because labels are numerical for Pubmed data
                 evaluation_mask = (flattened_gold != -1)
                 self.label_accuracy(flattened_probs.float().contiguous(), flattened_gold.squeeze(-1), mask=evaluation_mask)
 
