@@ -234,6 +234,7 @@ class SeqClassificationModel(Model):
             if not self.labels_are_scores:
                 # Kacper: this will be a case for us as well because labels are numerical for Pubmed data
                 evaluation_mask = (flattened_gold != -1)
+                # Kacper: CategoricalAccuracy
                 self.label_accuracy(flattened_probs.float().contiguous(), flattened_gold.squeeze(-1), mask=evaluation_mask)
 
                 # compute F1 per label
