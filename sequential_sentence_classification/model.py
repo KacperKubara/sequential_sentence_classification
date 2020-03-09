@@ -103,9 +103,9 @@ class SeqClassificationModel(Model):
             # The following code collects vectors of the SEP tokens from all the examples in the batch,
             # and arrange them in one list. It does the same for the labels and confidences.
             # TODO: replace 103 with '[SEP]'
-            # Kacper: This is an important step where get SEP tokens to later do sentence classification
-            sentences_mask = sentences['bert'] == 103  # mask for all the SEP tokens in the batch
+            # Kacper: This is an important step where we get SEP tokens to later do sentence classification
             # Kacper: We take a location of SEP tokens from the sentences to get a mask
+            sentences_mask = sentences['bert'] == 103  # mask for all the SEP tokens in the batch
             # Kacper: We use this mask to get the respective embeddings from the output layer of bert
             embedded_sentences = embedded_sentences[sentences_mask]  # given batch_size x num_sentences_per_example x sent_len x vector_len
                                                                         # returns num_sentences_per_batch x vector_len
@@ -220,7 +220,7 @@ class SeqClassificationModel(Model):
                 # Kacper: Get a probabilities from the logits
                 flattened_probs = torch.softmax(flattened_logits, dim=-1)
             else:
-                # Kacper: We are no interested in this if statement branch
+                # Kacper: We are not interested in this if statement branch (for our project)
                 clamped_labels = torch.clamp(labels, min=0)
                 log_likelihood = self.crf(label_logits, clamped_labels, mask_sentences)
                 label_loss = -log_likelihood
@@ -234,7 +234,7 @@ class SeqClassificationModel(Model):
             if not self.labels_are_scores:
                 # Kacper: this will be a case for us as well because labels are numerical for Pubmed data
                 evaluation_mask = (flattened_gold != -1)
-                # Kacper: CategoricalAccuracy
+                # Kacper: CategoricalAccuracy is computed in this case
                 self.label_accuracy(flattened_probs.float().contiguous(), flattened_gold.squeeze(-1), mask=evaluation_mask)
 
                 # compute F1 per label
@@ -249,6 +249,8 @@ class SeqClassificationModel(Model):
         return output_dict
 
     def get_metrics(self, reset: bool = False):
+        # Kacper: this function has to implemented due to API requirements for AllenNLP
+        # Kacper: so it can be run automatically with a config file
         metric_dict = {}
 
         if not self.labels_are_scores:

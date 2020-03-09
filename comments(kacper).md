@@ -1,21 +1,24 @@
 # Model
 forward():
-0. Gets padding mask for sentences
-1. Get embeddings of the sentences
-2. Get embeddings only for the [SEP] tokens (if self.use_sep is True)
-2. Transform data such all sentences are as a one batch
-3. If labels were provided (for training):
-    * Check if they're equal to num_sentences
+0. Get embeddings of the sentences
+1. Gets padding mask for sentences
+2. Get embeddings only for the [SEP] tokens (if self.use_sep is True) and filter the sentence embeddings based on the mask
+2. Transform data such that all sentences are in one batch
+3. If labels were provided (i.e. for training):
+(btw. size of self.labels is said to be [batch_size x num_sentences_per_example], but it might be incorrect or just too vague to understand. I would suspect that the size is [sent_len x ])
+    * Create a label mask (1 if array element is a label, 0 if empty)
+    * Check if num_labels is equal to num_sentences
+        * There might be the case that BERT truncates long sentences so some of the SEP tokens might be gone. According to authors this might be bad for testing but it's okay for training
         * If not check with assert if they're bigger than num_sentences (it can happend because BERT crops the sentences) 
 4. If labels were not provided just skip the part above
 5. If there are some additional features along the text that you wanted to add, we concatenate it with the embedded sentences
-6. Apply a linear layer to unwraped (time dimension) sequence of embeddings that are related to [SEP] token position. Its output is num of labels
-7. If labels are not scores, get a softmax of these scores
-8. Create output dictionary with losses and epoch metrics for the training (Pytorch specific)
+6. Apply a linear layer to unwraped (time dimension) sequence of embeddings that are related to [SEP] token position. Its output size is just a number of possible labels
+7. If labels are not scores, apply a softmax layer to get probabilites
+8. Create an output dictionary with losses and epoch metrics for the training (Pytorch specific)
 9. Optionally add CRF layer (not needed for our project)
 10. Reshape labels and predicted lables
 11. Get the mean loss between those labels. Either MSE(if sci_sum==True) or Crossentropy.
-12. Get the accuracy between the predicted label probabilities and the true labels (not probabilites). It uses CategoricalAccuracy as a metric
+12. Get the accuracy between the predicted label probabilities and the true labels (not probabilites). It uses CategoricalAccuracy as a metric if labels are used
 13. Gets F1 as a metric as well and returns output dict with a label loss and label logits
 
 ## Questions from the last week
@@ -40,3 +43,6 @@ We take the embeddings only that related to [SEP] tokens. On top of those embedd
 ### How to use Segment ID mask?
 I couldn't find code related to the segment mask in the Pytorch code. However, the top comment of the SegClassificationModel class says: 
 > Question answering model where answers are sentences
+
+### What is self.sci_sum
+I really have no clue what 'sci' means here. However it is a variable that controls whether the labels are scores or not (e.g. if it is a sentiment score or classification problem). 
