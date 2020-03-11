@@ -34,6 +34,7 @@ So it seems that the BERT model taken from TF Hub should include the pretrained 
 
 > enables fine-tuning of the SavedModel loaded by the layer. It adds the trainable weights and weight regularizers declared in the SavedModel to the Keras model, and runs the SavedModel's computation in training mode (think of dropout etc.).
 The image classification colab contains an end-to-end example with optional fine-tuning.
+
 ### Which output should be taken from the BERT? 
 From: https://github.com/google-research/bert/blob/master/run_classifier_with_tfhub.py
 There are 2 different outputs: pooled output and token-level output. Pooled output returns embeddings for the CLS token. We, however, need the token-level output to get classification scores for each [SEP] token.

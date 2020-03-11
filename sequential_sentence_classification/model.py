@@ -1,4 +1,5 @@
 import logging
+import json
 from typing import Dict
 
 import torch
@@ -11,6 +12,8 @@ from allennlp.training.metrics import F1Measure, CategoricalAccuracy
 from allennlp.modules.conditional_random_field import ConditionalRandomField
 
 logger = logging.getLogger(__name__)
+
+path_json = "/var/lib/lplp/sent-classifier/output_log.json"
 
 @Model.register("SeqClassificationModel")
 class SeqClassificationModel(Model):
@@ -29,6 +32,7 @@ class SeqClassificationModel(Model):
                  ) -> None:
         super(SeqClassificationModel, self).__init__(vocab)
 
+        self.track_embedding = {}
         self.text_field_embedder = text_field_embedder
         self.vocab = vocab
         self.use_sep = use_sep
@@ -62,7 +66,7 @@ class SeqClassificationModel(Model):
         ff_in_dim = encoded_senetence_dim if self.use_sep else self_attn.get_output_dim()
         ff_in_dim += self.additional_feature_size
 
-        self.time_distributed_aggregate_feedforward = TimeDistributed(Linear(ff_in_dim, self.num_labels))
+        self.time_distributed_aggregate_feedforward =   (Linear(ff_in_dim, self.num_labels))
 
         if self.with_crf:
             self.crf = ConditionalRandomField(
@@ -92,9 +96,15 @@ class SeqClassificationModel(Model):
         # Layer 1: For each sentence, participant pair: create a Glove embedding for each token
         # Input: sentences
         # Output: embedded_sentences
-
+        self.track_embedding["Transformation_0"] = {"size": embedded_sentences.size(), 
+                                                    "dim": embedded_sentences.dim(), 
+                                                    "arr": embedded_sentences.numpy()}
         # embedded_sentences: batch_size, num_sentences, sentence_length, embedding_size
         embedded_sentences = self.text_field_embedder(sentences)
+        self.track_embedding["Transformation_1"] = {"size": embedded_sentences.size(), 
+                                                    "dim": embedded_sentences.dim(), 
+                                                    "arr": embedded_sentences.numpy()}
+
         # Kacper: Basically a padding mask for bert
         mask = get_text_field_mask(sentences, num_wrapping_dims=1).float()
         batch_size, num_sentences, _, _ = embedded_sentences.size()
@@ -109,16 +119,25 @@ class SeqClassificationModel(Model):
             # Kacper: We use this mask to get the respective embeddings from the output layer of bert
             embedded_sentences = embedded_sentences[sentences_mask]  # given batch_size x num_sentences_per_example x sent_len x vector_len
                                                                         # returns num_sentences_per_batch x vector_len
+            self.track_embedding["Transformation_2"] = {"size": embedded_sentences.size(), 
+                                                    "dim": embedded_sentences.dim(), 
+                                                    "arr": embedded_sentences.numpy()}
             # Kacper: I dont get it why it became 2 instead of 4? What is the difference between size() and dim()???
             assert embedded_sentences.dim() == 2  
             num_sentences = embedded_sentences.shape[0]
             # Kacper: comment below is vague
+            # Kacper: I think we batch in one array because we just need to compute a mean loss from all of them
             # for the rest of the code in this model to work, think of the data we have as one example
             # with so many sentences and a batch of size 1
             batch_size = 1
             embedded_sentences = embedded_sentences.unsqueeze(dim=0) # Kacper: We batch all sentences in one array
+            self.track_embedding["Transformation_3"] = {"size": embedded_sentences.size(), 
+                                                    "dim": embedded_sentences.dim(), 
+                                                    "arr": embedded_sentences.numpy()}
             embedded_sentences = self.dropout(embedded_sentences)
-
+            self.track_embedding["Transformation_4"] = {"size": embedded_sentences.size(), 
+                                                    "dim": embedded_sentences.dim(), 
+                                                    "arr": embedded_sentences.numpy()}
             # Kacper: we provide the labels for training (for each sentence)
             if labels is not None:
                 if self.labels_are_scores:
@@ -181,6 +200,11 @@ class SeqClassificationModel(Model):
         # Kacper: I would suspect it is happening only for embeddings related to the [SEP] tokens
         label_logits = self.time_distributed_aggregate_feedforward(embedded_sentences)
         # label_logits: batch_size, num_sentences, num_labels
+        self.track_embedding["logits"] = {"size": label_logits.size(), 
+                                          "dim": label_logits.dim(), 
+                                          "arr": label_logits.numpy()}
+        with open(path_json, 'w') as json_out:
+            json.dump(self.track_embedding, json_out)
 
         if self.labels_are_scores:
             label_probs = label_logits
