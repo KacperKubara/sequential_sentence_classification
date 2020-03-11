@@ -101,7 +101,7 @@ class SeqClassificationModel(Model):
         embedded_sentences = self.text_field_embedder(sentences)
         self.track_embedding["Transformation_1"] = {"size": embedded_sentences.size(), 
                                                     "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.detach().numpy()}
+                                                    "arr": embedded_sentences.cpu().data.numpy()}
 
         # Kacper: Basically a padding mask for bert
         mask = get_text_field_mask(sentences, num_wrapping_dims=1).float()
@@ -119,7 +119,7 @@ class SeqClassificationModel(Model):
                                                                         # returns num_sentences_per_batch x vector_len
             self.track_embedding["Transformation_2"] = {"size": embedded_sentences.size(), 
                                                     "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.detach().numpy()}
+                                                    "arr": embedded_sentences.cpu().data.numpy()}
             # Kacper: I dont get it why it became 2 instead of 4? What is the difference between size() and dim()???
             assert embedded_sentences.dim() == 2  
             num_sentences = embedded_sentences.shape[0]
@@ -131,11 +131,11 @@ class SeqClassificationModel(Model):
             embedded_sentences = embedded_sentences.unsqueeze(dim=0) # Kacper: We batch all sentences in one array
             self.track_embedding["Transformation_3"] = {"size": embedded_sentences.size(), 
                                                     "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.detach().numpy()}
+                                                    "arr": embedded_sentences.cpu().data.numpy()}
             embedded_sentences = self.dropout(embedded_sentences)
             self.track_embedding["Transformation_4"] = {"size": embedded_sentences.size(), 
                                                     "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.detach().numpy()}
+                                                    "arr": embedded_sentences.cpu().data.numpy()}
             # Kacper: we provide the labels for training (for each sentence)
             if labels is not None:
                 if self.labels_are_scores:
@@ -200,7 +200,7 @@ class SeqClassificationModel(Model):
         # label_logits: batch_size, num_sentences, num_labels
         self.track_embedding["logits"] = {"size": label_logits.size(), 
                                           "dim": label_logits.dim(), 
-                                          "arr": label_logits.detach().numpy()}
+                                          "arr": label_logits.cpu().data.numpy()}
         print(self.track_embedding)
         with open(path_json, 'w') as json_out:
             json.dump(self.track_embedding, json_out)
