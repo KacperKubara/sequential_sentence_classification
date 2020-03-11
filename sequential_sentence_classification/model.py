@@ -106,6 +106,7 @@ class SeqClassificationModel(Model):
         # Layer 1: For each sentence, participant pair: create a Glove embedding for each token
         # Input: sentences
         # Output: embedded_sentences
+        print(sentences)
         sentences_conv = {}
         for key, val in sentences_conv.items():
             sentences_conv[key] = val.cpu().data.numpy().tolist()
@@ -210,7 +211,7 @@ class SeqClassificationModel(Model):
         # label_logits: batch_size, num_sentences, num_labels
         self.track_embedding["logits"] = {"size": list(label_logits.size()), 
                                           "dim": label_logits.dim()}
-        print(self.track_embedding)
+        #print(self.track_embedding)
         self.track_embedding_list.append(deepcopy(self.track_embedding))
         with open(path_json, 'w') as json_out:
             json.dump(self.track_embedding_list, json_out)

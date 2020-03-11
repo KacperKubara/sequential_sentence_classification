@@ -12,7 +12,7 @@ forward():
         * If not check with assert if they're bigger than num_sentences (it can happend because BERT crops the sentences) 
 4. If labels were not provided just skip the part above
 5. If there are some additional features along the text that you wanted to add, we concatenate it with the embedded sentences
-6. Apply a linear layer to unwraped (time dimension) sequence of embeddings that are related to [SEP] token position. Its output size is just a number of possible labels
+6. Apply a linear layer to the embedding that corresponds to the [SEP] token. For example linear layer applied on BERT embedding of size 768 provides 5 outputs for each label 
 7. If labels are not scores, apply a softmax layer to get probabilites
 8. Create an output dictionary with losses and epoch metrics for the training (Pytorch specific)
 9. Optionally add CRF layer (not needed for our project)
