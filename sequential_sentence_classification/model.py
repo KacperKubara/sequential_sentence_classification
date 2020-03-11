@@ -96,16 +96,19 @@ class SeqClassificationModel(Model):
         # Layer 1: For each sentence, participant pair: create a Glove embedding for each token
         # Input: sentences
         # Output: embedded_sentences
-        self.track_embedding["Transformation_0"] = {"sentences": sentences}
+        sentences_conv = {}
+        for key, val in sentences_conv.items():
+            sentences_conv[key] = val.cpu().data.numpy()
+        self.track_embedding["Transformation_0"] = {"sentences": sentences_conv}
         # embedded_sentences: batch_size, num_sentences, sentence_length, embedding_size
         embedded_sentences = self.text_field_embedder(sentences)
-        self.track_embedding["Transformation_1"] = {"size": embedded_sentences.size(), 
+        self.track_embedding["Transformation_1"] = {"size": list(embedded_sentences.size()), 
                                                     "dim": embedded_sentences.dim(), 
                                                     "arr": embedded_sentences.cpu().data.numpy()}
 
         # Kacper: Basically a padding mask for bert
         mask = get_text_field_mask(sentences, num_wrapping_dims=1).float()
-        batch_size, num_sentences, _, _ = embedded_sentences.size()
+        batch_size, num_sentences, _, _ = list(embedded_sentences.size())
 
         if self.use_sep:
             # The following code collects vectors of the SEP tokens from all the examples in the batch,
@@ -117,7 +120,7 @@ class SeqClassificationModel(Model):
             # Kacper: We use this mask to get the respective embeddings from the output layer of bert
             embedded_sentences = embedded_sentences[sentences_mask]  # given batch_size x num_sentences_per_example x sent_len x vector_len
                                                                         # returns num_sentences_per_batch x vector_len
-            self.track_embedding["Transformation_2"] = {"size": embedded_sentences.size(), 
+            self.track_embedding["Transformation_2"] = {"size": list(embedded_sentences.size()), 
                                                     "dim": embedded_sentences.dim(), 
                                                     "arr": embedded_sentences.cpu().data.numpy()}
             # Kacper: I dont get it why it became 2 instead of 4? What is the difference between size() and dim()???
@@ -129,11 +132,11 @@ class SeqClassificationModel(Model):
             # with so many sentences and a batch of size 1
             batch_size = 1
             embedded_sentences = embedded_sentences.unsqueeze(dim=0) # Kacper: We batch all sentences in one array
-            self.track_embedding["Transformation_3"] = {"size": embedded_sentences.size(), 
+            self.track_embedding["Transformation_3"] = {"size": list(embedded_sentences.size()), 
                                                     "dim": embedded_sentences.dim(), 
                                                     "arr": embedded_sentences.cpu().data.numpy()}
             embedded_sentences = self.dropout(embedded_sentences)
-            self.track_embedding["Transformation_4"] = {"size": embedded_sentences.size(), 
+            self.track_embedding["Transformation_4"] = {"size": list(embedded_sentences.size()), 
                                                     "dim": embedded_sentences.dim(), 
                                                     "arr": embedded_sentences.cpu().data.numpy()}
             # Kacper: we provide the labels for training (for each sentence)
@@ -186,7 +189,7 @@ class SeqClassificationModel(Model):
             # Kacper: this shouldnt be the case for our project
             embedded_sentences = embedded_sentences[:, :, 0, :]
             embedded_sentences = self.dropout(embedded_sentences)
-            batch_size, num_sentences, _ = embedded_sentences.size()
+            batch_size, num_sentences, _ = list(embedded_sentences.size())
             sent_mask = (mask.sum(dim=2) != 0)
             embedded_sentences = self.self_attn(embedded_sentences, sent_mask)
 
