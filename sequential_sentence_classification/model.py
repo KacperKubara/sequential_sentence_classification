@@ -96,9 +96,7 @@ class SeqClassificationModel(Model):
         # Layer 1: For each sentence, participant pair: create a Glove embedding for each token
         # Input: sentences
         # Output: embedded_sentences
-        self.track_embedding["Transformation_0"] = {"size": sentences.size(), 
-                                                    "dim": sentences.dim(), 
-                                                    "arr": sentences.numpy()}
+        self.track_embedding["Transformation_0"] = {"sentences": sentences}
         # embedded_sentences: batch_size, num_sentences, sentence_length, embedding_size
         embedded_sentences = self.text_field_embedder(sentences)
         self.track_embedding["Transformation_1"] = {"size": embedded_sentences.size(), 
