@@ -32,6 +32,7 @@ class SeqClassificationModel(Model):
                  ) -> None:
         super(SeqClassificationModel, self).__init__(vocab)
 
+        self.track_embedding_list = []
         self.track_embedding = {}
         self.text_field_embedder = text_field_embedder
         self.vocab = vocab
@@ -73,6 +74,14 @@ class SeqClassificationModel(Model):
                 self.num_labels, constraints=None,
                 include_start_end_transitions=True
             )
+        self.track_embedding["init_info"] = {
+                "ff_in_dim": ff_in_dim,
+                "encoded_sentence_dim": encoded_senetence_dim,
+                "sci_sum": self.sci_sum,
+                "use_sep": self.use_sep,
+                "with_crf": self.with_crf,
+                "additional_feature_size": self.additional_feature_size
+            }
 
     def forward(self,  # type: ignore
                 sentences: torch.LongTensor,
@@ -103,8 +112,7 @@ class SeqClassificationModel(Model):
         # embedded_sentences: batch_size, num_sentences, sentence_length, embedding_size
         embedded_sentences = self.text_field_embedder(sentences)
         self.track_embedding["Transformation_1"] = {"size": list(embedded_sentences.size()), 
-                                                    "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.cpu().data.numpy().tolist()}
+                                                    "dim": embedded_sentences.dim()}
 
         # Kacper: Basically a padding mask for bert
         mask = get_text_field_mask(sentences, num_wrapping_dims=1).float()
@@ -121,8 +129,7 @@ class SeqClassificationModel(Model):
             embedded_sentences = embedded_sentences[sentences_mask]  # given batch_size x num_sentences_per_example x sent_len x vector_len
                                                                         # returns num_sentences_per_batch x vector_len
             self.track_embedding["Transformation_2"] = {"size": list(embedded_sentences.size()), 
-                                                    "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.cpu().data.numpy().tolist()}
+                                                    "dim": embedded_sentences.dim()}
             # Kacper: I dont get it why it became 2 instead of 4? What is the difference between size() and dim()???
             assert embedded_sentences.dim() == 2  
             num_sentences = embedded_sentences.shape[0]
@@ -133,12 +140,11 @@ class SeqClassificationModel(Model):
             batch_size = 1
             embedded_sentences = embedded_sentences.unsqueeze(dim=0) # Kacper: We batch all sentences in one array
             self.track_embedding["Transformation_3"] = {"size": list(embedded_sentences.size()), 
-                                                    "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.cpu().data.numpy().tolist()}
+                                                    "dim": embedded_sentences.dim()}
+
             embedded_sentences = self.dropout(embedded_sentences)
             self.track_embedding["Transformation_4"] = {"size": list(embedded_sentences.size()), 
-                                                    "dim": embedded_sentences.dim(), 
-                                                    "arr": embedded_sentences.cpu().data.numpy().tolist()}
+                                                    "dim": embedded_sentences.dim()}
             # Kacper: we provide the labels for training (for each sentence)
             if labels is not None:
                 if self.labels_are_scores:
@@ -202,11 +208,11 @@ class SeqClassificationModel(Model):
         label_logits = self.time_distributed_aggregate_feedforward(embedded_sentences)
         # label_logits: batch_size, num_sentences, num_labels
         self.track_embedding["logits"] = {"size": list(label_logits.size()), 
-                                          "dim": label_logits.dim(), 
-                                          "arr": label_logits.cpu().data.numpy().tolist()}
+                                          "dim": label_logits.dim()}
         print(self.track_embedding)
+        self.track_embedding_list.append(self.track_embedding)
         with open(path_json, 'w') as json_out:
-            json.dump(self.track_embedding, json_out)
+            json.dump(self.track_embedding_list, json_out)
 
         if self.labels_are_scores:
             label_probs = label_logits
