@@ -201,7 +201,7 @@ class SeqClassificationModel(Model):
         # Kacper: I would suspect it is happening only for embeddings related to the [SEP] tokens
         label_logits = self.time_distributed_aggregate_feedforward(embedded_sentences)
         # label_logits: batch_size, num_sentences, num_labels
-        self.track_embedding["logits"] = {"size": label_logits.size(), 
+        self.track_embedding["logits"] = {"size": list(label_logits.size()), 
                                           "dim": label_logits.dim(), 
                                           "arr": label_logits.cpu().data.numpy()}
         print(self.track_embedding)
