@@ -210,7 +210,7 @@ class SeqClassificationModel(Model):
         self.track_embedding["logits"] = {"size": list(label_logits.size()), 
                                           "dim": label_logits.dim()}
         print(self.track_embedding)
-        self.track_embedding_list.append(self.track_embedding)
+        self.track_embedding_list.append(deepcopy(self.track_embedding))
         with open(path_json, 'w') as json_out:
             json.dump(self.track_embedding_list, json_out)
 
