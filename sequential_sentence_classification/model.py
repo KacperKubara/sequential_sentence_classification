@@ -67,7 +67,7 @@ class SeqClassificationModel(Model):
         ff_in_dim = encoded_senetence_dim if self.use_sep else self_attn.get_output_dim()
         ff_in_dim += self.additional_feature_size
 
-        self.time_distributed_aggregate_feedforward =   (Linear(ff_in_dim, self.num_labels))
+        self.time_distributed_aggregate_feedforward = TimeDistributed(Linear(ff_in_dim, self.num_labels))
 
         if self.with_crf:
             self.crf = ConditionalRandomField(
@@ -141,10 +141,10 @@ class SeqClassificationModel(Model):
             embedded_sentences = embedded_sentences.unsqueeze(dim=0) # Kacper: We batch all sentences in one array
             self.track_embedding["Transformation_3"] = {"size": list(embedded_sentences.size()), 
                                                     "dim": embedded_sentences.dim()}
-
+            # Kacper: Dropout layer is between filtered embeddings and linear layer
             embedded_sentences = self.dropout(embedded_sentences)
             self.track_embedding["Transformation_4"] = {"size": list(embedded_sentences.size()), 
-                                                    "dim": embedded_sentences.dim()}
+                                                        "dim": embedded_sentences.dim()}
             # Kacper: we provide the labels for training (for each sentence)
             if labels is not None:
                 if self.labels_are_scores:
