@@ -1,0 +1,1202 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@KacperKubara 
+KacperKubara
+/
+lplp
+Private
+1
+0
+0
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+lplp/output_log.json
+ Kacper Kubara Corrected a mistake in a readme file
+c75335a on 11 Mar
+1168 lines (1168 sloc)  23.5 KB
+  
+[
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                282,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                34,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                34,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                34,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                34,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                282,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                30,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                30,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                292,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                31,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                31,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                31,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                31,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                273,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                29,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                29,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                29,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                29,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                337,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                26,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                26,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                223,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                26,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                26,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                226,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                29,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                29,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                29,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                29,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                279,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                25,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                25,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                25,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                25,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                297,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                26,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                26,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                252,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                25,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                25,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                25,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                25,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                248,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                27,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                27,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                27,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                27,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                224,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                23,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                23,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                23,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                23,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                227,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                30,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                30,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                271,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                30,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                30,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                250,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                32,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                32,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                32,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                32,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                343,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                30,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                30,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                30,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                257,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                34,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                34,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                34,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                34,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                271,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                31,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                31,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                31,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                31,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                309,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                26,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                26,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                244,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                31,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                31,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                31,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                31,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                246,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                27,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                27,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                27,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                27,
+                5
+            ],
+            "dim": 3
+        }
+    },
+    {
+        "init_info": {
+            "ff_in_dim": 768,
+            "encoded_sentence_dim": 768,
+            "sci_sum": false,
+            "use_sep": true,
+            "with_crf": false,
+            "additional_feature_size": 0
+        },
+        "Transformation_0": {
+            "sentences": {}
+        },
+        "Transformation_1": {
+            "size": [
+                4,
+                1,
+                259,
+                768
+            ],
+            "dim": 4
+        },
+        "Transformation_2": {
+            "size": [
+                26,
+                768
+            ],
+            "dim": 2
+        },
+        "Transformation_3": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "Transformation_4": {
+            "size": [
+                1,
+                26,
+                768
+            ],
+            "dim": 3
+        },
+        "logits": {
+            "size": [
+                1,
+                26,
+                5
+            ],
+            "dim": 3
+        }
+    }
+]
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
