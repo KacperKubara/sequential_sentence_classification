@@ -4,6 +4,7 @@ from typing import Dict
 from copy import deepcopy
 
 import torch
+from torch.utils.tensorboard.writer import SummaryWriter
 from torch.nn import Linear
 from allennlp.data import Vocabulary
 from allennlp.models.model import Model
@@ -15,6 +16,8 @@ from allennlp.modules.conditional_random_field import ConditionalRandomField
 logger = logging.getLogger(__name__)
 
 path_json = "/var/lib/lplp/sent-classifier/output_log.json"
+
+torch.set_num_threads(10) # Limit CPU cores to 10
 
 @Model.register("SeqClassificationModel")
 class SeqClassificationModel(Model):
@@ -83,6 +86,8 @@ class SeqClassificationModel(Model):
                 "with_crf": self.with_crf,
                 "additional_feature_size": self.additional_feature_size
             }
+        self.t_board_writer = SummaryWriter(logdir="./tensorboard")
+        self.t_board_writer.add_graph(self)
 
     def forward(self,  # type: ignore
                 sentences: torch.LongTensor,
@@ -131,7 +136,7 @@ class SeqClassificationModel(Model):
             embedded_sentences = embedded_sentences[sentences_mask]  # given batch_size x num_sentences_per_example x sent_len x vector_len
                                                                         # returns num_sentences_per_batch x vector_len
             self.track_embedding["Transformation_2"] = {"size": list(embedded_sentences.size()), 
-                                                    "dim": embedded_sentences.dim()}
+                                                        "dim": embedded_sentences.dim()}
             # Kacper: I dont get it why it became 2 instead of 4? What is the difference between size() and dim()???
             assert embedded_sentences.dim() == 2  
             num_sentences = embedded_sentences.shape[0]
