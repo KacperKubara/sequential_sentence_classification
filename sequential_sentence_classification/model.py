@@ -87,7 +87,7 @@ class SeqClassificationModel(Model):
                 "additional_feature_size": self.additional_feature_size
             }
         self.t_board_writer = SummaryWriter(logdir="./tensorboard")
-        self.t_board_writer.add_graph(self)
+        #self.t_board_writer.add_graph(self)
 
     def forward(self,  # type: ignore
                 sentences: torch.LongTensor,
