@@ -46,7 +46,7 @@ class SeqClassificationModel(Model):
         self.self_attn = self_attn
         self.additional_feature_size = additional_feature_size
 
-        self.dropout = torch.nn.dropout(p=bert_dropout)
+        self.dropout = torch.nn.Dropout(p=bert_dropout)
 
        # define loss
         if self.sci_sum:
