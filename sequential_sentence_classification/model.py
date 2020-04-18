@@ -86,7 +86,7 @@ class SeqClassificationModel(Model):
                 "with_crf": self.with_crf,
                 "additional_feature_size": self.additional_feature_size
             }
-        self.t_board_writer = SummaryWriter(logdir="./tensorboard")
+        self.t_board_writer = SummaryWriter()
         #self.t_board_writer.add_graph(self)
 
     def forward(self,  # type: ignore
